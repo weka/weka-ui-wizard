@@ -3,7 +3,6 @@ import type { TFValues } from '../../types/configTypes.ts'
 
 import { ThemeProvider } from '@mui/material'
 
-import { WizardContextProvider } from '../../context/wizardContext'
 import MUItheme from '../../style/MUItheme'
 import '../../style/app.scss'
 import '../../style/index.scss'
@@ -25,16 +24,14 @@ export interface Wizard {
 function Wizard({ config, parsingFunc }: Wizard) {
   return (
     <ThemeProvider theme={MUItheme}>
-      <WizardContextProvider>
-        <div className={classes.layoutWrapper}>
-          <div className={classes.contentWrapper}>
-            <div className={classes.wizard}>
-              <Questionnaire config={config} parsingFunc={parsingFunc} />
-              <RightSidebar />
-            </div>
+      <div className={classes.layoutWrapper}>
+        <div className={classes.contentWrapper}>
+          <div className={classes.wizard}>
+            <Questionnaire config={config} parsingFunc={parsingFunc} />
+            <RightSidebar />
           </div>
         </div>
-      </WizardContextProvider>
+      </div>
     </ThemeProvider>
   )
 }
