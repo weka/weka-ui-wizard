@@ -1,14 +1,14 @@
-import type { HandledSection } from 'types/wizardTypes.ts'
-import type { TFValues } from 'types/configTypes.ts'
+import type { HandledSection } from '../../types/wizardTypes.ts'
+import type { TFValues } from '../../types/configTypes.ts'
 
-import { WizardContextProvider } from 'context/wizardContext'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material'
 
+import { WizardContextProvider } from '../../context/wizardContext'
 import MUItheme from '../../style/MUItheme'
-import 'style/app.scss'
-import 'style/index.scss'
-import 'style/fonts.scss'
+import '../../style/app.scss'
+import '../../style/index.scss'
+import '../../style/fonts.scss'
 
 import '@weka.io/weka-ui-components/dist/style/theme.scss'
 

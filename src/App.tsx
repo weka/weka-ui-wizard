@@ -1,7 +1,6 @@
 import type { TFOutput, TFValues } from 'types/configTypes.ts'
 
-import { CLUSTER_LOCATIONS, EMPTY_STRING } from 'utils/consts.ts'
-
+import { CLUSTER_LOCATIONS, EMPTY_STRING } from '../lib/utils/consts.ts'
 import Wizard from '../lib/components/Wizard'
 import testConfig from '../tfconfig.json'
 

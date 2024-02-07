@@ -5,9 +5,9 @@ import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Tooltip } from '@weka.io/weka-ui-components'
 import clsx from 'clsx'
 import { IconButton } from '@mui/material'
-import { AddThin, Delete, Info } from 'static/svgs'
-import { EMPTY_STRING, FORM_VALIDATIONS } from 'utils/consts'
 
+import { AddThin, Delete, Info } from '../../../../static/svgs'
+import { EMPTY_STRING, FORM_VALIDATIONS } from '../../../../utils/consts'
 import { ParseInput } from '../Form'
 
 import generalClasses from 'generalClasses.module.scss'

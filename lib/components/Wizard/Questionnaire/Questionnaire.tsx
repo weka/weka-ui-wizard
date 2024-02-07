@@ -4,25 +4,25 @@ import type {
   HandledInput,
   HandledSection,
   ClusterLocation
-} from 'types/wizardTypes.ts'
-import type { TFValues } from 'types/configTypes'
+} from '../../../types/wizardTypes.ts'
+import type { TFValues } from '../../../types/configTypes'
 import type { Wizard } from '../Wizard.tsx'
 
-import utils from 'utils/utils'
+import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { Tab, Tooltip } from '@weka.io/weka-ui-components'
+import clsx from 'clsx'
+import { IconButton } from '@mui/material'
+
+import { useWizardContext } from '../../../context/wizardContext'
 import {
   FORM_VALIDATIONS,
   FORM_INPUTS,
   EMPTY_STRING,
   INPUT_TYPES
-} from 'utils/consts'
-import { useLocation } from 'react-router-dom'
-import { useState } from 'react'
-import { useWizardContext } from 'context/wizardContext'
-import { Tab, Tooltip } from '@weka.io/weka-ui-components'
-import clsx from 'clsx'
-import { IconButton } from '@mui/material'
-import { Arrow } from 'static/svgs'
-
+} from '../../../utils/consts'
+import utils from '../../../utils/utils'
+import { Arrow } from '../../../static/svgs'
 import Form from '../../subComponents/Form'
 
 import classes from './questionnaire.module.scss'

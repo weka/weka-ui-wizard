@@ -26,10 +26,14 @@ import {
   CustomizableSelect,
   Info
 } from '@weka.io/weka-ui-components'
-import { EMPTY_STRING, FORM_INPUTS, FORM_VALIDATIONS } from 'utils/consts'
-import utils from 'utils/utils'
-import { useToggle } from 'hooks'
 
+import {
+  EMPTY_STRING,
+  FORM_INPUTS,
+  FORM_VALIDATIONS
+} from '../../../utils/consts'
+import utils from '../../../utils/utils'
+import { useToggle } from '../../../hooks'
 import InputsList from './InputsList'
 
 import './form.scss'

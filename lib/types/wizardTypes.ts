@@ -3,7 +3,7 @@ import type {
   FORM_INPUTS,
   FORM_VALIDATIONS,
   INPUT_TYPES
-} from 'utils/consts'
+} from '../utils/consts'
 import type { TFValues } from './configTypes.ts'
 
 type InputComponent = (typeof FORM_INPUTS)[keyof typeof FORM_INPUTS]

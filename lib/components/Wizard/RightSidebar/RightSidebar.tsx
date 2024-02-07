@@ -1,7 +1,7 @@
 import { Button, Tab } from '@weka.io/weka-ui-components'
-import utils from 'utils/utils'
-import { useWizardContext } from 'context/wizardContext.tsx'
 
+import utils from '../../../utils/utils'
+import { useWizardContext } from '../../../context/wizardContext.tsx'
 import JsonSidebar from './JsonSidebar'
 import UnfilledParts from './UnfilledParts'
 
