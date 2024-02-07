@@ -1,7 +1,6 @@
 import type { TFOutput, TFValues } from 'types/configTypes.ts'
 
 import { BrowserRouter } from 'react-router-dom'
-import { WizardContextProvider } from 'context/wizardContext.tsx'
 
 import { CLUSTER_LOCATIONS, EMPTY_STRING } from '../lib/utils/consts.ts'
 import Wizard from '../lib/components/Wizard'
@@ -75,11 +74,9 @@ function generateOutputDict(inputDict: TFValues): TFOutput {
 function App() {
   return (
     <BrowserRouter>
-      <WizardContextProvider>
-        <div>
-          <Wizard config={testConfig} parsingFunc={generateOutputDict} />
-        </div>
-      </WizardContextProvider>
+      <div>
+        <Wizard config={testConfig} parsingFunc={generateOutputDict} />
+      </div>
     </BrowserRouter>
   )
 }

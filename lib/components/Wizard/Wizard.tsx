@@ -12,6 +12,7 @@ import '@weka.io/weka-ui-components/dist/style/theme.scss'
 
 import Questionnaire from './Questionnaire'
 import RightSidebar from './RightSidebar'
+import { WizardContextProvider } from '../../context/wizardContext.tsx'
 
 import classes from './wizard.module.scss'
 
@@ -24,14 +25,16 @@ export interface Wizard {
 function Wizard({ config, parsingFunc }: Wizard) {
   return (
     <ThemeProvider theme={MUItheme}>
-      <div className={classes.layoutWrapper}>
-        <div className={classes.contentWrapper}>
-          <div className={classes.wizard}>
-            <Questionnaire config={config} parsingFunc={parsingFunc} />
-            <RightSidebar />
+      <WizardContextProvider>
+        <div className={classes.layoutWrapper}>
+          <div className={classes.contentWrapper}>
+            <div className={classes.wizard}>
+              <Questionnaire config={config} parsingFunc={parsingFunc} />
+              <RightSidebar />
+            </div>
           </div>
         </div>
-      </div>
+      </WizardContextProvider>
     </ThemeProvider>
   )
 }
