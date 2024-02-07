@@ -1,7 +1,6 @@
 import type { HandledSection } from '../../types/wizardTypes.ts'
 import type { TFValues } from '../../types/configTypes.ts'
 
-import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material'
 
 import { WizardContextProvider } from '../../context/wizardContext'
@@ -25,20 +24,18 @@ export interface Wizard {
 
 function Wizard({ config, parsingFunc }: Wizard) {
   return (
-    <BrowserRouter>
-      <ThemeProvider theme={MUItheme}>
-        <WizardContextProvider>
-          <div className={classes.layoutWrapper}>
-            <div className={classes.contentWrapper}>
-              <div className={classes.wizard}>
-                <Questionnaire config={config} parsingFunc={parsingFunc} />
-                <RightSidebar />
-              </div>
+    <ThemeProvider theme={MUItheme}>
+      <WizardContextProvider>
+        <div className={classes.layoutWrapper}>
+          <div className={classes.contentWrapper}>
+            <div className={classes.wizard}>
+              <Questionnaire config={config} parsingFunc={parsingFunc} />
+              <RightSidebar />
             </div>
           </div>
-        </WizardContextProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+        </div>
+      </WizardContextProvider>
+    </ThemeProvider>
   )
 }
 
