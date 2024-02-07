@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "main": "dist/weka-ui-wizard.ts",
+  "main": "dist/weka-ui-wizard.js",
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --p ./tsconfig-build.json",
