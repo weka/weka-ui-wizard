@@ -1,0 +1,16 @@
+.unfilledSections {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.section {
+  cursor: pointer;
+  color: var(--main-color);
+}
+
+.sectionTitle {
+  font-size: 16px !important;
+}

@@ -1,0 +1,168 @@
+.label1 {
+  font-size: 14px;
+  color: var(--ironhide-s2);
+}
+
+.label2 {
+  font-size: 14px;
+  color: var(--ironhide-s4);
+}
+
+.label3 {
+  font-size: 20px;
+  color: var(--ironhide-s2);
+}
+
+.label4 {
+  font-size: 12px;
+  color: var(--ironhide-s2);
+}
+
+.label5 {
+  font-size: 14px;
+  color: var(--main-color);
+
+  &[disabled] {
+    color: var(--ironhide-key);
+  }
+}
+
+.dataImportant {
+  font-size: 64px;
+  color: var(--ironhide-s4);
+}
+
+.dataImportantIron {
+  font-size: 64px;
+  color: var(--ironhide-key);
+}
+
+.dataSecondary {
+  font-size: 48px;
+  color: var(--ironhide-s4);
+}
+
+.data1 {
+  font-size: 32px;
+  color: var(--ironhide-s4);
+}
+
+.data2 {
+  font-size: 24px;
+  color: var(--ironhide-s4);
+}
+
+.data3 {
+  font-size: 16px;
+  color: var(--ironhide-s4);
+}
+
+.data4 {
+  font-size: 10px;
+  color: var(--ironhide-s4);
+}
+
+.pointer {
+  cursor: pointer;
+
+  &[disabled] {
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+.clickableLink {
+  color: var(--main-color);
+  border-bottom: 1px solid var(--main-color);
+}
+
+.pageTop {
+  min-height: 56px;
+  background-color: var(--neutral-t4);
+  border-bottom: 1px solid var(--ironhide-key);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spread3);
+}
+
+.pageTopName {
+  font-size: 18px;
+  color: var(--main-color);
+  font-family: var(--bold-font);
+  font-weight: bold;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.rotate180 {
+  transform: rotate(180deg);
+}
+
+.rotate90 {
+  transform: rotate(90deg);
+}
+
+.rotate270 {
+  transform: rotate(270deg);
+}
+
+.pageBody {
+  display: flex;
+  height: calc(100% - 57px);
+}
+
+.bold {
+  font-weight: bold;
+  font-family: var(--bold-font);
+}
+
+.boldMain {
+  font-weight: bold;
+  font-family: var(--bold-font);
+  color: var(--main-color);
+}
+
+.topWithTabs {
+  min-height: 48px;
+  height: 48px;
+  background-color: var(--neutral-t4);
+  border-bottom: 1px solid var(--ironhide-key);
+  border-left: 1px solid var(--ironhide-key);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spread3);
+}
+
+.downloadBtn {
+  svg {
+    height: 22px;
+  }
+}
+
+.downloadProgress {
+  padding: 0 8px;
+}
+
+.regularIconBtn {
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.largeIconBtn {
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}

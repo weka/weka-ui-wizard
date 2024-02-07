@@ -1,0 +1,1048 @@
+[
+  {
+    "section": "basic_configuration",
+    "section_title": "Basic Configuration",
+    "inputs": [
+      {
+        "type": "string",
+        "identifier": "weka_version",
+        "title": "Weka Version",
+        "default_value": "4.2.6",
+        "info": "Some info",
+        "required": true,
+        "regex": "^[0-9]+(\\.[0-9]+)(\\.[0-9]+)+$"
+      },
+      {
+        "type": "string",
+        "identifier": "cluster_name",
+        "title": "Cluster Name",
+        "info": "Some info",
+        "default_value": "example",
+        "required": true,
+        "regex": "^[a-zA-Z0-9]{1,24}$"
+      },
+      {
+        "type": "number",
+        "identifier": "cluster_size",
+        "title": "Number of Backends",
+        "allow_decimal": true,
+        "info": "Cluster size",
+        "default_value": 6,
+        "required": true
+      },
+      {
+        "type": "enum",
+        "identifier": "cluster_location",
+        "title": "Cluster Location",
+        "info": "Cloud for weka cluster deployment",
+        "default_value": "AWS",
+        "options": [
+          "AWS",
+          "GCP",
+          "OCI",
+          "AZURE"
+        ],
+        "required": true
+      },
+      {
+        "type": "enum",
+        "title": "Instance Type",
+        "identifier": "instance_type",
+        "info": "Instance type",
+        "dependent_default_values": {
+          "affecting_key": "cluster_location",
+          "default_values_sets": [
+            {
+              "affecting_value": "AWS",
+              "value": "i3en.2xlarge"
+            },
+            {
+              "affecting_value": "GCP",
+              "value": "c2-standard-8"
+            }
+          ]
+        },
+        "dependent_options": {
+          "key": "cluster_location",
+          "option_sets": [
+            {
+              "value": "AWS",
+              "set": [
+                "i3en.2xlarge",
+                "i3en.3xlarge",
+                "i3en.6xlarge",
+                "i3en.12xlarge",
+                "i3en.24xlarge"
+              ]
+            },
+            {
+              "value": "GCP",
+              "set": [
+                "c2-standard-8",
+                "c2-standard-16"
+              ]
+            },
+            {
+              "value": "AZURE",
+              "set": [
+                "Standard_L8s_v3",
+                "Standard_L16s_v3",
+                "Standard_L32s_v3",
+                "Standard_L48s_v3",
+                "Standard_L64s_v3"
+              ]
+            }
+          ]
+        },
+        "required": true,
+        "invalid_value_error": "Value length should be less than 4 and contain only letters and numbers"
+      },
+      {
+        "type": "enum",
+        "title": "Region",
+        "identifier": "region",
+        "info": "Region",
+        "dependent_options": {
+          "key": "cluster_location",
+          "option_sets": [
+            {
+              "value": "AWS",
+              "set": [
+                "ap-south-1",
+                "eu-west-2",
+                "eu-west-1",
+                "ap-northeast-2",
+                "ap-northeast-1",
+                "sa-east-1",
+                "ca-central-1",
+                "ap-southeast-1",
+                "ap-southeast-2",
+                "eu-central-1",
+                "eu-north-1",
+                "us-east-1",
+                "us-east-2",
+                "us-west-1",
+                "us-west-2"
+              ]
+            },
+            {
+              "value": "GCP",
+              "set": [
+                "northamerica-northeast1",
+                "southamerica-east1",
+                "southamerica-west1",
+                "us-central1",
+                "us-east1",
+                "us-east4",
+                "us-east5",
+                "us-west1",
+                "us-west2",
+                "us-west3",
+                "us-west4",
+                "asia-east1",
+                "asia-east2",
+                "asia-northeast1",
+                "asia-northeast2",
+                "asia-northeast3",
+                "asia-south1",
+                "asia-south2",
+                "asia-southeast1",
+                "australia-southeast1",
+                "europe-north1",
+                "europe-west1",
+                "europe-west2",
+                "europe-west3",
+                "europe-west4",
+                "europe-west6"
+              ]
+            },
+            {
+              "value": "AZURE",
+              "set": [
+                "brazilsouth",
+                "canadacentral",
+                "centralus",
+                "eastus",
+                "eastus2",
+                "southcentralus",
+                "westus2",
+                "westus3",
+                "francecentral",
+                "germanywestcentral",
+                "northeurope",
+                "westeurope",
+                "uksouth",
+                "swedencentral",
+                "qatarcentral",
+                "australiaeast",
+                "centralindia",
+                "japaneast",
+                "eastasia",
+                "southeastasia"
+              ]
+            }
+          ]
+        },
+        "dependent_default_values": {
+          "affecting_key": "cluster_location",
+          "default_values_sets": [
+            {
+              "affecting_value": "AWS",
+              "value": "eu-west-1"
+            },
+            {
+              "affecting_value": "GCP",
+              "value": "europe-west1"
+            }
+          ]
+        },
+        "required": true,
+        "invalid_value_error": "Value length should be less than 4 and contain only letters and numbers"
+      },
+      {
+        "type": "string",
+        "identifier": "zone",
+        "title": "Zone",
+        "info": "Zone",
+        "required": true,
+        "regex": "^[a-zA-Z0-9-]{1,24}$",
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": ["AWS", "GCP"]
+          }
+        ],
+        "autofill_placeholder": {
+          "take_value_from": "region",
+          "dependent_appendix": {
+            "affecting_key": "cluster_location",
+            "appendix_sets": [
+              {
+                "affecting_value": "AWS",
+                "appendix": "-1a"
+              },
+              {
+                "affecting_value": "GCP",
+                "appendix": "-b"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "string",
+        "identifier": "subscription_id",
+        "title": "Subscription Id",
+        "info": "Subscription Id",
+        "required": true,
+        "regex": "[a-zA-Z0-9-]$",
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AZURE"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "identifier": "rg_name",
+        "title": "Deployment resource group name",
+        "info": "Deployment resource group name",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AZURE"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "identifier": "vnet_rg_name",
+        "title": "Vnet resource group name",
+        "info": "Vnet resource group name",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AZURE"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "identifier": "project_id",
+        "title": "Project Id",
+        "info": "Project Id",
+        "required": true,
+        "regex": "[a-zA-Z0-9-]$",
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "GCP"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "section": "networking",
+    "section_title": "Network Configuration",
+    "section_info": "Auto creating network will require additional permissions for user that executes TF, specifically permissions to create VPC/Subnets (per-cloud terms)",
+    "inputs": [
+      {
+        "type": "enum",
+        "identifier": "network_stack_creation",
+        "title": "Network Stack Creation",
+        "info": "Auto creating network will require additional permissions for user that executes TF, specifically permissions to create VPC/Subnets (per-cloud terms)",
+        "options": ["Auto-create", "Existing Params"],
+        "default_value": "Auto-create",
+        "required": true
+      },
+      {
+        "type": "string",
+        "identifier": "vpc_id",
+        "title": "VPC",
+        "required": true,
+        "regex": "^[0-9]+(\\.[0-9]+)*$",
+        "dependencies": [
+          {
+            "key": "network_stack_creation",
+            "value": "Existing Params"
+          },
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "identifier": "subnet_ids",
+        "title": "Subnet ID",
+        "required": true,
+        "regex": "^[0-9]+(\\.[0-9]+)*$",
+        "dependencies": [
+          {
+            "key": "network_stack_creation",
+            "value": "Existing Params"
+          },
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "identifier": "alb_additional_subnet_id",
+        "title": "Additional subnet ID for ALB",
+        "required": true,
+        "regex": "^[0-9]+(\\.[0-9]+)*$",
+        "dependencies": [
+          {
+            "key": "network_stack_creation",
+            "value": "Existing Params"
+          },
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "identifier": "secretmanager_use_vpc_endpoint",
+        "title": "Use secret manager VPC Endpoint",
+        "info": "Do you want terraform to use vpc secret manager endpoint?",
+        "options": ["Yes", "No"],
+        "default_value": "Yes",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "identifier": "secretmanager_create_vpc_endpoint",
+        "title": "Create secret manager VPC Endpoint",
+        "info": "Do you want terraform to setup vpc secret manager endpoint?",
+        "options": ["Yes", "No"],
+        "default_value": "Yes",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          },
+          {
+            "key": "secretmanager_use_vpc_endpoint",
+            "value": "Yes"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "identifier": "secretmanager_sg_ids",
+        "title": "Secret manager VPC Endpoint securtity group id",
+        "required": false,
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          },
+          {
+            "key": "secretmanager_use_vpc_endpoint",
+            "value": "Yes"
+          },
+          {
+            "key": "secretmanager_create_vpc_endpoint",
+            "value": "Yes"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "identifier": "assign_public_ip",
+        "title": "Assign public ip",
+        "required": false,
+        "options": ["Yes", "No"],
+        "default_value": "Yes"
+      },
+      {
+        "type": "enum",
+        "identifier": "subnet_internet_access",
+        "title": "Subnet Internet Access",
+        "info": "Does your subnet have access to internet?",
+        "required": true,
+        "options": ["Yes", "No", "Proxy"],
+        "default_value": "Yes"
+      },
+      {
+        "type": "string",
+        "identifier": "proxy_url",
+        "title": "Proxy url",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "subnet_internet_access",
+            "value": "Proxy"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "identifier": "vpc_endpoint_ec2_create",
+        "title": "Create ec2 VPC Endpoint",
+        "info": "Do you want terraform to setup ec2 VPC endpoint?",
+        "options": ["Yes", "No"],
+        "default_value": "No",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          },
+          {
+            "key": "subnet_internet_access",
+            "value": "No"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "identifier": "vpc_endpoint_lambda_create",
+        "title": "Create lambda VPC Endpoint",
+        "info": "Do you want terraform to setup ec2 VPC endpoint?",
+        "options": ["Yes", "No"],
+        "default_value": "No",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          },
+          {
+            "key": "subnet_internet_access",
+            "value": "No"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "identifier": "vpc_endpoint_s3_gateway_create",
+        "title": "Create s3 gateway",
+        "info": "Do you want terraform to setup s3 vpc gateway?",
+        "options": ["Yes", "No"],
+        "default_value": "No",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          },
+          {
+            "key": "subnet_internet_access",
+            "value": "No"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "identifier": "weka_proxy_vpc_endpoint",
+        "title": "Create weka proxy VPC Endpoint",
+        "info": "Do you want us to setup VPC endpoint for services that will use peering to weka-provided proxy, that allows access only to weka and OS distribution endpoints?",
+        "options": ["Yes", "No"],
+        "required": true,
+        "default_value": "No",
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          },
+          {
+            "key": "subnet_internet_access",
+            "value": "No"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "section": "security",
+    "section_title": "Security Configuration",
+    "section_info": "Security section info",
+    "inputs": [
+      {
+        "type": "enum",
+        "identifier": "security_configuration",
+        "title": "Security Configuration",
+        "info": "Should TF auto-create security groups, or you will provide required params?",
+        "default_value": "Auto-create",
+        "options": ["Auto-create", "Existing Params"],
+        "required": true
+      },
+      {
+        "type": "multi_custom",
+        "identifier": "sg_ids",
+        "title": "Security group ids",
+        "dependencies": [
+          {
+            "key": "security_configuration",
+            "value": "Existing Params"
+          }
+        ],
+        "required": true
+      },
+      {
+        "type": "ip_subnet",
+        "identifier": "allow_ssh_cidrs",
+        "title": "TCP port 22 access CIDR to add to the SG",
+        "dependencies": [
+          {
+            "key": "security_configuration",
+            "value": "Auto-create"
+          }
+        ],
+        "required": false
+      },
+      {
+        "type": "ip_subnet",
+        "identifier": "alb_allow_https_cidrs",
+        "title": "TCP port 443 access CIDR to add to the SG",
+        "dependencies": [
+          {
+            "key": "security_configuration",
+            "value": "Auto-create"
+          }
+        ],
+        "required": false
+      },
+      {
+        "type": "ip_subnet",
+        "identifier": "allow_weka_api_cidrs",
+        "title": "TCP port 14000 access CIDR to add to the SG",
+        "dependencies": [
+          {
+            "key": "security_configuration",
+            "value": "Auto-create"
+          }
+        ],
+        "required": false
+      },
+      {
+        "type": "enum",
+        "title": "SSH Access",
+        "identifier": "ssh_access",
+        "default_value": "Terraform auto create",
+        "dependent_options": {
+          "key": "cluster_location",
+          "option_sets": [
+            {
+              "value": "AWS",
+              "set": ["Key Pair Name", "Public Key String", "Terraform auto create"]
+            },
+            {
+              "value": "GCP",
+              "set": ["Public Key String", "Terraform auto create"]
+            },
+            {
+              "value": "AZURE",
+              "set": ["Public Key String", "Terraform auto create"]
+            }
+          ]
+        },
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "title": "Key Pair Name",
+        "identifier": "key_pair_name",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "ssh_access",
+            "value": "Key Pair Name"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "title": "Public Key String",
+        "identifier": "public_key",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "ssh_access",
+            "value": "Public Key String"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "title": "VM Username",
+        "identifier": "vm_username",
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AZURE"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "section": "iam_roles",
+    "section_title": "IAM Roles",
+    "section_info": "Automated create of IAM roles requires root-level permissions for user/role that executes terraform",
+    "section_dependencies": [
+      {
+        "key": "cluster_location",
+        "value": "AWS"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "enum",
+        "title": "IAM Roles Creation",
+        "identifier": "iam_roles_creation",
+        "info": "Should TF auto-create IAM roles, or you will provide required params?",
+        "required": true,
+        "default_value": "Auto-create",
+        "options": ["Auto-create", "Existing Params"]
+      },
+      {
+        "type": "string",
+        "title": "Instance IAM Profile",
+        "identifier": "instance_iam_profile_arn",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "iam_roles_creation",
+            "value": "Existing Params"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "title": "Lambda IAM Role",
+        "identifier": "lambda_iam_role_arn",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "iam_roles_creation",
+            "value": "Existing Params"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "title": "SFN IAM Role",
+        "identifier": "sfn_iam_role_arn",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "iam_roles_creation",
+            "value": "Existing Params"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "title": "Event IAM Profile",
+        "identifier": "event_iam_role_arn",
+        "required": true,
+        "dependencies": [
+          {
+            "key": "iam_roles_creation",
+            "value": "Existing Params"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "section": "obs",
+    "section_title": "OBS",
+    "section_info": "OBS section Info",
+    "inputs": [
+      {
+        "type": "enum",
+        "title": "Enable Weka Tiering",
+        "options": ["Yes", "No"],
+        "identifier": "tiering_enable_obs_integration",
+        "default_value": "No",
+        "required": true
+      },
+      {
+        "type": "string",
+        "identifier": "tiering_obs_name",
+        "title": "OBS Bucket Name",
+        "regex": "^[a-zA-Z0-9]{1,24}$",
+        "dependencies": [
+          {
+            "key": "tiering_enable_obs_integration",
+            "value": "Yes"
+          }
+        ],
+        "required": false
+      },
+      {
+        "type": "number",
+        "identifier": "tiering_enable_ssd_percent",
+        "title": "SSD Percentage from total available capacity",
+        "default_value": 20,
+        "dependencies": [
+          {
+            "key": "tiering_enable_obs_integration",
+            "value": "Yes"
+          }
+        ],
+        "required": false
+      }
+    ]
+  },
+  {
+    "section": "alb",
+    "section_title": "ALB",
+    "section_info": "ALB section info",
+    "section_dependencies": [
+      {
+        "key": "cluster_location",
+        "value": "AWS"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "enum",
+        "identifier": "alb",
+        "title": "Enable ALB",
+        "options": ["Yes", "No"],
+        "required": true,
+        "default_value": "Yes"
+      },
+      {
+        "type": "string",
+        "identifier": "alb_alias",
+        "title": "ALB Alias",
+        "dependencies": [
+          {
+            "key": "alb",
+            "value": "Yes"
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "identifier": "alb_route53_zone_id",
+        "title": "Route 53 dns zone id",
+        "dependencies": [
+          {
+            "key": "alb",
+            "value": "Yes"
+          },
+          {
+            "key": "alb_alias",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "string",
+        "identifier": "alb_sg_ids",
+        "title": "ALB security group ids",
+        "dependencies": [
+          {
+            "key": "alb",
+            "value": "Yes"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "section": "nfs",
+    "section_title": "NFS protocol gateways",
+    "section_info": "NFS protocol section Info",
+    "inputs": [
+      {
+        "type": "number",
+        "identifier": "nfs_protocol_gateways_number",
+        "title": "Number of NFS Backends",
+        "required": true,
+        "default_value": 0
+      },
+      {
+        "type": "string",
+        "identifier": "nfs_protocol_gateway_instance_iam_profile_arn",
+        "title": "NFS protocol gw instance iam profile arn",
+        "required": false
+      },
+      {
+        "type": "number",
+        "identifier": "nfs_protocol_gateway_secondary_ips_per_nic",
+        "title": "NFS protocol gw number of secondary ips per nic",
+        "required": false,
+        "default_value": 3
+      },
+      {
+        "type": "string",
+        "identifier": "nfs_protocol_gateway_instance_type",
+        "title": "NFS protocol gw instance type",
+        "required": false,
+        "default_value": "c5n.2xlarge"
+      },
+      {
+        "type": "number",
+        "identifier": "nfs_protocol_gateway_fe_cores_num",
+        "title": "NFS protocol gw frontend cores number",
+        "required": false,
+        "default_value": 1
+      },
+      {
+        "type": "enum",
+        "identifier": "nfs_setup_protocol",
+        "title": "Setup NFS protocol",
+        "required": false,
+        "options": ["Yes", "No"],
+        "default_value": "Yes"
+      },
+      {
+        "type": "string",
+        "identifier": "nfs_client_group_name",
+        "title": "NFS client group name",
+        "required": false,
+        "default_value": "weka-cg"
+      },
+      {
+        "type": "string",
+        "identifier": "nfs_interface_group_name",
+        "title": "NFS interface group name",
+        "required": false,
+        "default_value": "weka-ig"
+      }
+    ]
+  },
+  {
+    "section": "smb",
+    "section_title": "SMB protocol gateways",
+    "section_info": "SMB protocol section Info",
+    "inputs": [
+      {
+        "type": "number",
+        "identifier": "smb_protocol_gateways_number",
+        "title": "Number of SMB Backends",
+        "required": true,
+        "default_value": 0
+      },
+      {
+        "type": "enum",
+        "identifier": "smb_setup_protocol",
+        "title": "Setup SMB protocol",
+        "required": false,
+        "options": ["Yes", "No"],
+        "default_value": "Yes"
+      },
+      {
+        "type": "string",
+        "identifier": "smb_domain_name",
+        "title": "SMB domain name",
+        "required": false
+      },
+      {
+        "type": "string",
+        "identifier": "smb_cluster_name",
+        "title": "SMB cluster name",
+        "default_value": "Weka-SMB",
+        "required": false
+      },
+      {
+        "type": "enum",
+        "identifier": "smbw_enabled",
+        "title": "Enable smbw",
+        "required": false,
+        "options": ["Yes", "No"],
+        "default_value": "Yes"
+      },
+      {
+        "type": "string",
+        "identifier": "smb_protocol_gateway_instance_iam_profile_arn",
+        "title": "SMB protocol gw instance iam profile arn",
+        "required": false,
+        "default_value": ""
+      },
+      {
+        "type": "number",
+        "identifier": "smb_protocol_gateway_secondary_ips_per_nic",
+        "title": "SMB protocol gw number of secondary ips per nic",
+        "required": false,
+        "default_value": 3
+      },
+      {
+        "type": "string",
+        "identifier": "smb_protocol_gateway_instance_type",
+        "title": "SMB protocol gw instance type",
+        "required": false,
+        "default_value": "c5n.2xlarge"
+      },
+      {
+        "type": "number",
+        "identifier": "smb_protocol_gateway_fe_cores_num",
+        "title": "SMB protocol gw frontend cores number",
+        "required": false,
+        "default_value": 1
+      }
+    ]
+  },
+  {
+    "section": "clients",
+    "section_title": "Clients",
+    "section_info": "Create clients as part of primary module deployment. In case you need to add more clients with different configuration/multiple types - fallback to additional clients module invocations",
+    "inputs": [
+      {
+        "type": "number",
+        "identifier": "num_clients",
+        "title": "Number of Clients",
+        "default_value": 0,
+        "required": true
+      },
+      {
+        "type": "string",
+        "identifier": "clients_machine_type",
+        "title": "Machine Type of Clients",
+        "info": "Supported client type: AWS:https://docs.weka.io/install/aws/supported-ec2-instance-types GCP:https://docs.weka.io/install/weka-installation-on-gcp/supported-machine-types-and-storage Azure:https://docs.weka.io/install/weka-installation-on-azure/supported-virtual-machine-types#supported-vm-sizes-for-clients",
+        "required": false
+      },
+      {
+        "type": "enum",
+        "identifier": "clients_type",
+        "title": "Type of Clients",
+        "options": ["Stateful", "Stateless"],
+        "required": false
+      }
+    ]
+  },
+  {
+    "section": "advanced_configuration",
+    "section_title": "Advanced Configuration",
+    "section_info": "Advanced Configuration section info",
+    "inputs": [
+      {
+        "type": "string",
+        "identifier": "ami_id",
+        "title": "AMI ID",
+        "dependencies": [
+          {
+            "key": "cluster_location",
+            "value": "AWS"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "identifier": "set_dedicated_fe_container",
+        "title": "Setup frontend container on backends",
+        "options": ["Yes", "No"],
+        "default_value": "Yes"
+      },
+      {
+        "type": "number",
+        "identifier": "protection_level",
+        "title": "Cluster data protection level",
+        "default_value": 2
+      },
+      {
+        "type": "number",
+        "identifier": "stripe_width",
+        "title": "Stripe width",
+        "info": "Keeping -1 means that it will be automatically calculated according to this formula: 'stripe_width = cluster_size - protection_level - 1'",
+        "default_value": -1,
+        "allow_negative": true
+      },
+      {
+        "type": "number",
+        "identifier": "hotspare",
+        "title": "Number of hotspares to set on weka cluster",
+        "info": "check: https://docs.weka.io/overview/ssd-capacity-management#hot-spare",
+        "default_value": 1
+      },
+      {
+        "type": "string",
+        "identifier": "prefix",
+        "title": "Resources prefix",
+        "info": "Prefix for naming all the resources created by terraform",
+        "default_value": "weka"
+      },
+      {
+        "type": "list",
+        "identifier": "tags",
+        "title": "Tags to add to the backends",
+        "fields": [
+          {
+            "type": "string",
+            "identifier": "key",
+            "title": "Key"
+          },
+          {
+            "type": "string",
+            "identifier": "value",
+            "title": "Value"
+          }
+        ]
+      }
+    ]
+  }
+]
+
+
+
+
+

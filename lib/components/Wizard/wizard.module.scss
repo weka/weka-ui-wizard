@@ -1,0 +1,27 @@
+.layoutWrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: auto auto;
+  margin: 0;
+  background-color: var(--ironhide-t3);
+
+  * {
+    outline: none;
+    transition: background-color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+}
+
+.contentWrapper {
+  min-width: 1440px;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  min-height: 708px;
+}
+
+.wizard {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
