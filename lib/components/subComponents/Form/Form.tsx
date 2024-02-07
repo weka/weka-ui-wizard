@@ -352,9 +352,6 @@ function ReactForm(props) {
 
   useEffect(() => {
     if (onFormValid && onFormInvalid) {
-      console.log('%cISVALID', 'color: blue', formMethods.formState.isValid)
-      console.log('%cERRORS', 'color: red', formMethods.formState.errors)
-      console.log('%callValues', 'color: green', allValues)
       formMethods.trigger()
       if (formMethods.formState.isValid) {
         clearEmptyStringAndExe(allValues, onFormValid)

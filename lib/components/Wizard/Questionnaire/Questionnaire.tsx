@@ -392,7 +392,6 @@ function Questionnaire({ config, parsingFunc }: Wizard) {
             disableSubmitUntilValid={true}
             selectTab={selectTab}
             onFormValid={(values) => {
-              // console.log('values', values)
               if (values) {
                 if (parsingFunc) {
                   setJsonValue(parsingFunc(values))
