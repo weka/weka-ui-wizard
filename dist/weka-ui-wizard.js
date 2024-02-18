@@ -38642,7 +38642,7 @@ const BV = [
       }
     ]
   }
-], G2 = wp("test"), DV = (e) => {
+], G2 = wp(null), DV = (e) => {
   const [t, n] = bn(null), [r, i] = bn(null), s = BV[0], [a, o] = bn(s == null ? void 0 : s.section), u = Li(
     () => ({
       jsonValue: t,

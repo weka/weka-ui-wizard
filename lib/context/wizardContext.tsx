@@ -20,7 +20,7 @@ export type WizardContextType = {
   setSelectTab: (value: string) => void
 }
 
-const WizardContext = createContext<WizardContextType | null>('test')
+const WizardContext = createContext<WizardContextType | null>(null)
 
 const WizardContextProvider = (props: PropsWithChildren) => {
   const [jsonValue, setJsonValue] = useState<JsonValue>(null)
