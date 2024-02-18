@@ -23,7 +23,7 @@ export default defineConfig({
     },
     copyPublicDir: false,
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime', 'react-router-dom']
+      external: ['react', 'react/jsx-runtime', 'react-dom', 'react-router-dom']
     }
   },
   resolve: {

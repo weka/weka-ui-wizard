@@ -45,7 +45,6 @@ const WizardContextProvider = (props: PropsWithChildren) => {
 
 const useWizardContext = () => {
   const context = useContext(WizardContext)
-  console.log('context', context)
 
   if (!context) {
     throw new Error(
