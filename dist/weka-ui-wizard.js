@@ -44283,7 +44283,7 @@ function CH({ config: e, parsingFunc: t }) {
           disableSubmitUntilValid: !0,
           selectTab: s,
           onFormValid: (A) => {
-            n(A ? t ? t(A) : A : null);
+            A ? (n(t ? t(A) : A), i(null)) : n(null);
           },
           onFormInvalid: (A) => {
             const I = Object.keys(A).reduce(
@@ -44299,7 +44299,7 @@ function CH({ config: e, parsingFunc: t }) {
                   const L = v.find(
                     (P) => P.section === (R == null ? void 0 : R.section)
                   );
-                  _.push({
+                  L && R.section && L.section_title && _.push({
                     section: R == null ? void 0 : R.section,
                     sectionTitle: L == null ? void 0 : L.section_title,
                     fields: [x]

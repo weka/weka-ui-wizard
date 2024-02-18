@@ -398,6 +398,7 @@ function Questionnaire({ config, parsingFunc }: Wizard) {
                 } else {
                   setJsonValue(values)
                 }
+                setUnfilledFields(null)
               } else {
                 setJsonValue(null)
               }
@@ -417,11 +418,17 @@ function Questionnaire({ config, parsingFunc }: Wizard) {
                     const foundSection = formattedSections.find(
                       (part) => part.section === foundField?.section
                     )
-                    acc.push({
-                      section: foundField?.section,
-                      sectionTitle: foundSection?.section_title,
-                      fields: [field]
-                    })
+                    if (
+                      foundSection &&
+                      foundField.section &&
+                      foundSection.section_title
+                    ) {
+                      acc.push({
+                        section: foundField?.section,
+                        sectionTitle: foundSection?.section_title,
+                        fields: [field]
+                      })
+                    }
                   }
                   return acc
                 },
