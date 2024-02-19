@@ -1,0 +1,28 @@
+.rightSidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.rightSidebarContent {
+  border-left: 2px solid var(--main-color);
+  border-bottom: 2px solid var(--main-color);
+  padding-bottom: 16px;
+  border-radius: 0 0 0 4px;
+  overflow: auto;
+  height: 84vh;
+}
+
+.tabsBar {
+  height: 49px;
+  border-left: 2px solid var(--main-color);
+}
+
+.generateButton {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}

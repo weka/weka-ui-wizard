@@ -18,8 +18,32 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "paths": {
+      "hooks": [
+        "./lib/hooks"
+      ],
+      "utils/*": [
+        "./lib/utils/*"
+      ],
+      "types/*": [
+        "./lib/types/*"
+      ],
+      "generalClasses.module.scss": [
+        "./lib/style/generalClasses"
+      ],
+      "static/*": [
+        "./lib/static/*"
+      ],
+      "context/*": [
+        "./lib/context/*"
+      ],
+      "style/*": [
+        "./lib/style/*"
+      ]
+    }
   },
-  "include": ["src"],
+  "include": ["src", "lib"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

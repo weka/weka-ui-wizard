@@ -1,0 +1,52 @@
+.inputs-list {
+  padding-top: 24px;
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+    &-label-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .list-label {
+    font-size: 14px;
+    font-weight: bold;
+    font-family: var(--bold-font);
+    color: var(--ironhide-s4);
+  }
+
+  .list-part {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .border-between {
+    height: 16px;
+    margin-top: 4px;
+    border-right: 1px solid var(--ironhide-s1);
+    border-left: 1px solid var(--ironhide-s1);
+  }
+
+  .row-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    width: 100%;
+    gap: 4px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

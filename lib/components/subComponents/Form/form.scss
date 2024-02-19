@@ -1,0 +1,90 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .form-section {
+    align-self: flex-start;
+
+    max-width: 744px;
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      .component-info {
+        margin-left: 6px;
+      }
+      &-title {
+        font-size: 16px;
+        border-bottom: 2px solid var(--ironhide-s1);
+      }
+    }
+
+    .field-container:not(:last-child) {
+      padding-right: 24px;
+    }
+
+    &.has-title {
+      padding-top: 24px;
+    }
+
+    &-body {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      flex-grow: 0;
+    }
+    .component-info {
+      path {
+        fill: var(--ironhide-s2);
+      }
+    }
+    &-divided {
+      padding: 12px 12px 18px 12px;
+      border: 1px solid var(--ironhide-key);
+      border-radius: 4px;
+      &-closed {
+        padding: 12px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
+
+  .field-container {
+    padding-top: 24px;
+    display: flex;
+    align-items: flex-end;
+
+    .field-label {
+      min-width: 150px;
+    }
+    &-hidden {
+      display: none;
+    }
+    &-list {
+      padding-top: 4px !important;
+    }
+  }
+
+  .input-notes {
+    display: flex;
+    flex-direction: column;
+    margin-top: 14px;
+    gap: 2px;
+    margin-left: 2px;
+    &-hidden {
+      display: none;
+    }
+  }
+
+  .actions {
+    margin-top: 20px;
+
+    .main-button {
+      background-color: var(--main-color);
+      color: #fafafa;
+    }
+  }
+}

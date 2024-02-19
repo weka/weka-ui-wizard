@@ -1,0 +1,86 @@
+.questionnaire {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.questionnaireWrapper {
+  display: flex;
+  flex: 1;
+}
+
+.tab {
+  height: 83px !important;
+  width: 100%;
+  direction: ltr;
+  & :global(.tab-title) {
+    text-align: left;
+    padding-right: 8px;
+  }
+}
+
+@keyframes blinkingBG {
+  50% {
+    border-right: 4px solid var(--focus-key);
+  }
+}
+
+@keyframes blinkingTitle {
+  50% {
+    color: var(--focus-key);
+  }
+}
+
+.tabIncomplete {
+  animation: blinkingBG 1.5s ease;
+  & :global(.tab-title) {
+    animation: blinkingTitle 1.5s ease;
+  }
+}
+
+.tabsSidebar {
+  background-color: var(--neutral-t4);
+  direction: rtl;
+  width: 230px;
+  border-right: 1px solid var(--ironhide-key);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.arrowBtn {
+  svg {
+    width: 24px;
+    height: 24px;
+    path {
+      fill: var(--main-color);
+    }
+  }
+}
+
+.prevBtn {
+  svg {
+    transform: rotate(270deg);
+  }
+}
+
+.nextBtn {
+  svg {
+    transform: rotate(90deg);
+  }
+}
+
+.arrowBtnsContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.formContainer {
+  display: flex;
+  padding: 0 24px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
