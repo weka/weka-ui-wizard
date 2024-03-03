@@ -1,28 +1,35 @@
 .rightSidebar {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  width: 45%;
   justify-content: space-between;
   overflow: hidden;
 }
 
-.rightSidebarContent {
+.rightSidebarWrapper {
   border-left: 2px solid var(--main-color);
   border-bottom: 2px solid var(--main-color);
   padding-bottom: 16px;
   border-radius: 0 0 0 4px;
+}
+
+.tabsBar {
+  max-width: 100%;
+  border-left: none !important;
+  overflow-x: auto;
+  & :global(.custom-tab) {
+    min-width: fit-content;
+  }
+}
+
+.rightSidebarContent {
   overflow: auto;
   height: 84vh;
 }
 
-.tabsBar {
-  height: 49px;
-  border-left: 2px solid var(--main-color);
-}
-
 .generateButton {
-    margin-top: 16px;
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
 }

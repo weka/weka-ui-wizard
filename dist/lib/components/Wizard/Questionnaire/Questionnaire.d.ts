@@ -1,3 +1,6 @@
-import type { Wizard } from '../Wizard.tsx';
-declare function Questionnaire({ config, parsingFunc }: Wizard): import("react/jsx-runtime").JSX.Element;
+import type { TFValues } from '../../../types/configTypes';
+interface QuestionnaireProps {
+    config: TFValues;
+}
+declare function Questionnaire({ config }: QuestionnaireProps): import("react/jsx-runtime").JSX.Element;
 export default Questionnaire;

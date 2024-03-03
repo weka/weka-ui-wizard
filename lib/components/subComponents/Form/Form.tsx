@@ -360,7 +360,12 @@ function ReactForm(props) {
         onFormValid(null)
       }
     }
-  }, [formMethods.formState.isValid, formMethods.formState.errors, allValues])
+  }, [
+    formMethods.formState.isValid,
+    formMethods.formState.errors,
+    allValues,
+    onFormValid
+  ])
 
   useEffect(() => {
     mounted.current = true

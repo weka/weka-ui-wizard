@@ -1,41 +1,63 @@
-import type { HandledSection } from '../../types/wizardTypes.ts'
 import type { TFValues } from '../../types/configTypes.ts'
-
-import { ThemeProvider } from '@mui/material'
-
-import MUItheme from '../../style/MUItheme'
-import '../../style/app.scss'
-import '../../style/index.scss'
-import '../../style/fonts.scss'
-
-import '@weka.io/weka-ui-components/dist/style/theme.scss'
+import type { WizardProps } from '../../WizardView/WizardView.tsx'
+import type { JsonValue, UnfilledFields } from '../../context/wizardContext.tsx'
 
 import Questionnaire from './Questionnaire'
 import RightSidebar from './RightSidebar'
-import { WizardContextProvider } from '../../context/wizardContext.tsx'
+import FormatHandler from './FormatHandler'
+import { useWizardContext } from '../../context/wizardContext.tsx'
 
 import classes from './wizard.module.scss'
 
-export interface Wizard {
-  config: HandledSection[]
-  //TODO: make generic for handled config
-  parsingFunc?: (json: TFValues) => unknown
+interface CommonTabValues {
+  key: string
+  title: string
+  downloadFunc?: (value: unknown) => void
 }
 
-function Wizard({ config, parsingFunc }: Wizard) {
+export type ParserTab = CommonTabValues & {
+  parser: (json: TFValues | null) => unknown
+}
+
+export type ContentTab = CommonTabValues & {
+  content: string | JsonValue | UnfilledFields
+}
+
+export type WizardTab = ParserTab | ContentTab
+
+export interface IncompleteTab {
+  key: string
+  title: string
+}
+
+function Wizard({
+  config,
+  tabs,
+  interchangeableTabs,
+  projectName,
+  ...rest
+}: WizardProps) {
+  const { jsonValue } = useWizardContext()
+
   return (
-    <ThemeProvider theme={MUItheme}>
-      <WizardContextProvider>
-        <div className={classes.layoutWrapper}>
-          <div className={classes.contentWrapper}>
-            <div className={classes.wizard}>
-              <Questionnaire config={config} parsingFunc={parsingFunc} />
-              <RightSidebar />
-            </div>
-          </div>
+    <div className={classes.layoutWrapper}>
+      <div className={classes.contentWrapper}>
+        <div className={classes.wizard}>
+          <Questionnaire config={config} />
+          {!!jsonValue && interchangeableTabs?.length === 2 ? (
+            <FormatHandler
+              interchangeableTabs={interchangeableTabs}
+              projectName={projectName}
+            />
+          ) : null}
+          <RightSidebar
+            tabs={tabs}
+            interchangeableTabs={interchangeableTabs}
+            {...rest}
+          />
         </div>
-      </WizardContextProvider>
-    </ThemeProvider>
+      </div>
+    </div>
   )
 }
 
