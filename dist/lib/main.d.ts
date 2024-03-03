@@ -1,1 +1,1 @@
-export { default as Wizard } from './components/Wizard';
+export { default as Wizard } from './WizardView';

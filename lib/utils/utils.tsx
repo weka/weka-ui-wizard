@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 import { Toast } from '@weka.io/weka-ui-components'
-import { Approve, Warning } from '../static/svgs'
 
+import { Approve, Warning } from '../static/svgs'
 import {
   DIALOG_STATUSES,
   EMPTY_STRING,

@@ -6,10 +6,9 @@ import type {
   ClusterLocation
 } from '../../../types/wizardTypes.ts'
 import type { TFValues } from '../../../types/configTypes'
-import type { Wizard } from '../Wizard.tsx'
 
 import { useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Tab, Tooltip } from '@weka.io/weka-ui-components'
 import clsx from 'clsx'
 import { IconButton } from '@mui/material'
@@ -58,7 +57,11 @@ const getInputByType = (
   return FORM_INPUTS.SWITCH
 }
 
-function Questionnaire({ config, parsingFunc }: Wizard) {
+interface QuestionnaireProps {
+  config: TFValues
+}
+
+function Questionnaire({ config }: QuestionnaireProps) {
   const {
     setJsonValue,
     unfilledFields,
@@ -66,6 +69,15 @@ function Questionnaire({ config, parsingFunc }: Wizard) {
     selectTab,
     setSelectTab
   } = useWizardContext()
+
+  const onValidForm = useCallback((values) => {
+    if (values) {
+      setJsonValue(values)
+      setUnfilledFields(null)
+    } else {
+      setJsonValue(null)
+    }
+  }, [])
 
   const getInitialValues = (cloud: ClusterLocation) => {
     const initialValues: TFValues = {}
@@ -384,59 +396,50 @@ function Questionnaire({ config, parsingFunc }: Wizard) {
       <div className={classes.questionnaireWrapper}>
         <div className={classes.tabsSidebar}>{getTabs()}</div>
         <div className={classes.formContainer}>
-          <Form
-            inputs={shownInputs}
-            defaultValues={defaultValues}
-            allValues={allValues}
-            setAllValues={setAllValues}
-            disableSubmitUntilValid={true}
-            selectTab={selectTab}
-            onFormValid={(values) => {
-              if (values) {
-                if (parsingFunc) {
-                  setJsonValue(parsingFunc(values))
-                } else {
-                  setJsonValue(values)
-                }
-                setUnfilledFields(null)
-              } else {
-                setJsonValue(null)
-              }
-            }}
-            onFormInvalid={(errors) => {
-              const formattedErrors = Object.keys(errors).reduce(
-                (acc, field) => {
-                  const foundField = shownInputs.find(
-                    (input) => input.field === field
-                  )
-                  const foundItemInAcc = acc.find(
-                    (item) => item?.section === foundField?.section
-                  )
-                  if (foundItemInAcc) {
-                    foundItemInAcc.fields.push(field)
-                  } else {
-                    const foundSection = formattedSections.find(
-                      (part) => part.section === foundField?.section
+          <div className={classes.formWrapper}>
+            <Form
+              inputs={shownInputs}
+              defaultValues={defaultValues}
+              allValues={allValues}
+              setAllValues={setAllValues}
+              disableSubmitUntilValid={true}
+              selectTab={selectTab}
+              onFormValid={onValidForm}
+              onFormInvalid={(errors) => {
+                const formattedErrors = Object.keys(errors).reduce(
+                  (acc, field) => {
+                    const foundField = shownInputs.find(
+                      (input) => input.field === field
                     )
-                    if (
-                      foundSection &&
-                      foundField.section &&
-                      foundSection.section_title
-                    ) {
-                      acc.push({
-                        section: foundField?.section,
-                        sectionTitle: foundSection?.section_title,
-                        fields: [field]
-                      })
+                    const foundItemInAcc = acc.find(
+                      (item) => item?.section === foundField?.section
+                    )
+                    if (foundItemInAcc) {
+                      foundItemInAcc.fields.push(field)
+                    } else {
+                      const foundSection = formattedSections.find(
+                        (part) => part.section === foundField?.section
+                      )
+                      if (
+                        foundSection &&
+                        foundField.section &&
+                        foundSection.section_title
+                      ) {
+                        acc.push({
+                          section: foundField?.section,
+                          sectionTitle: foundSection?.section_title,
+                          fields: [field]
+                        })
+                      }
                     }
-                  }
-                  return acc
-                },
-                []
-              )
-              setUnfilledFields(formattedErrors)
-            }}
-          />
+                    return acc
+                  },
+                  []
+                )
+                setUnfilledFields(formattedErrors)
+              }}
+            />
+          </div>
           {formattedSections?.length > 1 ? (
             <div className={classes.arrowBtnsContainer}>
               {currentSectionIndex > 0 && (
