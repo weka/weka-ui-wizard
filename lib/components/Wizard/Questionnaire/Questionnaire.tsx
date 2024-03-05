@@ -135,7 +135,8 @@ function Questionnaire({ config }: QuestionnaireProps) {
         max_length,
         min,
         max,
-        hide_field
+        hide_field,
+        disabled
       } = input
       const fieldType = getInputByType(type, !!options, !!dependent_options)
       const currentInput: Input = {
@@ -313,6 +314,9 @@ function Questionnaire({ config }: QuestionnaireProps) {
       }
       if (hide_field) {
         currentInput.isHidden = true
+      }
+      if (disabled) {
+        currentInput.disabled = true
       }
       formattedInputs.push(currentInput)
     })
