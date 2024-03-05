@@ -1,6 +1,6 @@
-import type { TFValues } from '../../../types/configTypes';
+import type { HandledSection } from '../../../types/wizardTypes.ts';
 interface QuestionnaireProps {
-    config: TFValues;
+    config: HandledSection[];
 }
 declare function Questionnaire({ config }: QuestionnaireProps): import("react/jsx-runtime").JSX.Element;
 export default Questionnaire;
