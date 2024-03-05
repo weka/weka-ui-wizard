@@ -36,6 +36,7 @@ export interface Input {
     inputsArray?: Input[];
     maxLength?: number;
     isHidden?: boolean;
+    disabled?: boolean;
 }
 export interface Section {
     key: string;
@@ -117,5 +118,6 @@ export interface HandledInput {
     min?: number;
     max?: number;
     hide_field?: boolean;
+    disabled?: boolean;
 }
 export {};
