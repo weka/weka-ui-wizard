@@ -45,6 +45,7 @@ export interface Input {
   shouldConvertSubnet2Mask?: boolean
   inputsArray?: Input[]
   maxLength?: number
+  isHidden?: boolean
 }
 
 export interface Section {
@@ -139,4 +140,5 @@ export interface HandledInput {
   max_length?: number
   min?: number
   max?: number
+  hide_field?: boolean
 }
