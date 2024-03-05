@@ -137,6 +137,7 @@ export function ParseInput({ input, index, setAllValues, selectTab, isList }) {
     notes,
     section,
     autofocus,
+    isHidden,
     ...restInput
   } = input
   const InputComponent = getInputType(inputComponent)
@@ -200,7 +201,8 @@ export function ParseInput({ input, index, setAllValues, selectTab, isList }) {
               className={clsx({
                 'field-container': true,
                 'field-container-list': isList,
-                'field-container-hidden': selectTab && section !== selectTab
+                'field-container-hidden':
+                  (selectTab && section !== selectTab) || isHidden
               })}
               data-testid={input.field}
             >

@@ -58,7 +58,7 @@ const getInputByType = (
 }
 
 interface QuestionnaireProps {
-  config: TFValues
+  config: HandledSection[]
 }
 
 function Questionnaire({ config }: QuestionnaireProps) {
@@ -134,7 +134,9 @@ function Questionnaire({ config }: QuestionnaireProps) {
         fields,
         max_length,
         min,
-        max
+        max,
+        hide_field,
+        disabled
       } = input
       const fieldType = getInputByType(type, !!options, !!dependent_options)
       const currentInput: Input = {
@@ -309,6 +311,12 @@ function Questionnaire({ config }: QuestionnaireProps) {
           )?.notes
           return foundNotes || EMPTY_STRING
         }
+      }
+      if (hide_field) {
+        currentInput.isHidden = true
+      }
+      if (disabled) {
+        currentInput.disabled = true
       }
       formattedInputs.push(currentInput)
     })
