@@ -92,17 +92,19 @@ function RightSidebar({
     }
   })
 
+  const shouldShowGuidance =
+    guidance.length > 0 &&
+    guidance.some(
+      ({ sectionDescription, inputsDescription }) =>
+        sectionDescription ||
+        inputsDescription?.some(({ description }) => description)
+    )
+
   const guidanceTab = {
     key: 'configGuidance',
     title: guidanceTabTitle || 'Configuration Guidance',
     isGuidanceTab: true,
-    shouldShow:
-      guidance.length > 0 &&
-      guidance.some(
-        ({ sectionDescription, inputsDescription }) =>
-          sectionDescription ||
-          inputsDescription?.some(({ description }) => description)
-      )
+    shouldShow: shouldShowGuidance
   }
 
   const initialFormattedTabs: FormattedTab[] = hasGuidance
@@ -186,7 +188,7 @@ function RightSidebar({
         1,
         updatedIncomplete
       )
-      if (!hasRenderedWithValue && guidanceTab) {
+      if (!hasRenderedWithValue && guidanceTab && shouldShowGuidance) {
         setActiveTab(guidanceTab)
         setHasRenderedWithValue(true)
       } else {
