@@ -1,8 +1,9 @@
 import type { PropsWithChildren } from 'react'
+import type { HandledSection } from 'types/wizardTypes.ts'
 
 import { createContext, useContext, useMemo, useState } from 'react'
 
-import testConfig from '../../tfconfig.json'
+import { EMPTY_STRING } from '../utils/consts.ts'
 
 export type JsonValue =
   | Record<string, string | boolean | number | string[]>
@@ -12,6 +13,9 @@ export type UnfilledFields =
   | { section: string; sectionTitle: string; fields: string[] }[]
   | null
 export type CurrentFormat = string | null
+// export type CurrentDescription =
+//   | { title: string; description: string }
+//   | typeof EMPTY_STRING
 export type WizardContextType = {
   jsonValue: JsonValue
   setJsonValue: (value: JsonValue) => void
@@ -20,17 +24,26 @@ export type WizardContextType = {
   selectTab: string
   setSelectTab: (value: string) => void
   currentFormat: CurrentFormat
-  setCurrentFormat: (format: string) => void
+  setCurrentFormat: (format: CurrentFormat) => void
+  focusedInput: string
+  setFocusedInput: (description: string) => void
+  showHandler: boolean
+  setShowHandler: (value: boolean) => void
 }
 
 const WizardContext = createContext<WizardContextType | null>(null)
 
-const WizardContextProvider = (props: PropsWithChildren) => {
+const WizardContextProvider = (
+  props: PropsWithChildren<{ config: HandledSection[] }>
+) => {
+  const { config, ...rest } = props
   const [jsonValue, setJsonValue] = useState<JsonValue>(null)
   const [unfilledFields, setUnfilledFields] = useState<UnfilledFields>(null)
   const [currentFormat, setCurrentFormat] = useState<CurrentFormat>(null)
-  const firstPart = testConfig[0]
+  const firstPart = config[0]
   const [selectTab, setSelectTab] = useState<string>(firstPart?.section)
+  const [focusedInput, setFocusedInput] = useState<string>(EMPTY_STRING)
+  const [showHandler, setShowHandler] = useState<boolean>(false)
 
   const contextValue = useMemo(
     () => ({
@@ -41,12 +54,23 @@ const WizardContextProvider = (props: PropsWithChildren) => {
       selectTab,
       setSelectTab,
       currentFormat,
-      setCurrentFormat
+      setCurrentFormat,
+      focusedInput,
+      setFocusedInput,
+      showHandler,
+      setShowHandler
     }),
-    [jsonValue, unfilledFields, selectTab, currentFormat]
+    [
+      jsonValue,
+      unfilledFields,
+      selectTab,
+      currentFormat,
+      focusedInput,
+      showHandler
+    ]
   )
 
-  return <WizardContext.Provider value={contextValue} {...props} />
+  return <WizardContext.Provider value={contextValue} {...rest} />
 }
 
 const useWizardContext = () => {

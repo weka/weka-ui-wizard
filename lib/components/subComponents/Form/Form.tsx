@@ -119,7 +119,14 @@ function getPlaceholder(placeHolders, keys, getValues, field) {
   )
 }
 
-export function ParseInput({ input, index, setAllValues, selectTab, isList }) {
+export function ParseInput({
+  input,
+  index,
+  setAllValues,
+  selectTab,
+  isList,
+  setFocusedInput
+}) {
   const { control, getValues, placeHolders, setValue } = useFormContext()
   const {
     inputComponent,
@@ -138,6 +145,7 @@ export function ParseInput({ input, index, setAllValues, selectTab, isList }) {
     section,
     autofocus,
     isHidden,
+    label,
     ...restInput
   } = input
   const InputComponent = getInputType(inputComponent)
@@ -222,12 +230,16 @@ export function ParseInput({ input, index, setAllValues, selectTab, isList }) {
                     : EMPTY_STRING)
                 }
                 onChange={formField.onChange}
+                {...(setFocusedInput && {
+                  onFocus: () => setFocusedInput(field)
+                })}
                 value={formField.value}
                 error={error?.message}
                 isRequired={input.validations?.includes(
                   FORM_VALIDATIONS.REQUIRED
                 )}
                 autoFocus={autofocus || index === 0}
+                label={label}
               />
             </div>
           )}
@@ -342,7 +354,8 @@ function ReactForm(props) {
     setAllValues,
     selectTab,
     onFormValid,
-    onFormInvalid
+    onFormInvalid,
+    setFocusedInput
   } = props
   const formMethods = useForm({
     ...(disableSubmitUntilValid && { mode: 'onChange' }),
@@ -423,6 +436,7 @@ function ReactForm(props) {
                 index={index}
                 setAllValues={setAllValues}
                 selectTab={selectTab}
+                setFocusedInput={setFocusedInput}
               />
             )
           })}

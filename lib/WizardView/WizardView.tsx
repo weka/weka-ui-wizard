@@ -32,9 +32,10 @@ export interface WizardProps {
 }
 
 function WizardView(props: WizardProps) {
+  const { config } = props
   return (
     <ThemeProvider theme={MUItheme}>
-      <WizardContextProvider>
+      <WizardContextProvider config={config}>
         <Wizard {...props} />
       </WizardContextProvider>
     </ThemeProvider>

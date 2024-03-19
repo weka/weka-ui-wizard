@@ -9,6 +9,7 @@ import type {
   UnfilledFields
 } from '../../../context/wizardContext.tsx'
 import type { InterchangeableTabs } from '../../../WizardView/WizardView.tsx'
+import type { Guidance } from 'types/wizardTypes.ts'
 
 import { Button, Tab } from '@weka.io/weka-ui-components'
 import { useEffect, useState } from 'react'
@@ -18,6 +19,7 @@ import generalClasses from '../../../style/generalClasses.ts'
 import { useWizardContext } from '../../../context/wizardContext.tsx'
 import JsonSidebar from './JsonSidebar'
 import UnfilledParts from './UnfilledParts'
+import GuidancePart from './GuidancePart'
 
 import classes from './rightSidebar.module.scss'
 
@@ -26,6 +28,9 @@ interface RightSidebarProps {
   incompleteTab?: IncompleteTab
   downloadBtnText?: string
   interchangeableTabs?: InterchangeableTabs
+  guidance: Guidance[]
+  guidanceTabTitle?: string
+  hasGuidance?: boolean
 }
 
 interface FormattedTab {
@@ -36,6 +41,7 @@ interface FormattedTab {
   title: string
   isIncompleteTab?: boolean
   isParsableTab?: boolean
+  isGuidanceTab?: boolean
   downloadFunc?: (value: unknown) => void
 }
 
@@ -51,11 +57,30 @@ function RightSidebar({
   tabs = [],
   incompleteTab,
   downloadBtnText,
-  interchangeableTabs
+  interchangeableTabs,
+  guidance = [],
+  guidanceTabTitle,
+  hasGuidance
 }: RightSidebarProps) {
-  const { jsonValue, unfilledFields, currentFormat } = useWizardContext()
+  const {
+    selectTab,
+    jsonValue,
+    unfilledFields,
+    currentFormat,
+    setShowHandler
+  } = useWizardContext()
+  const [currentGuidancePart, setCurrentGuidancePart] =
+    useState<Guidance | null>(null)
+  const [hasRenderedWithValue, setHasRenderedWithValue] = useState(false)
 
-  const initialFormattedTabs: FormattedTab[] = tabs.map((tab) => {
+  useEffect(() => {
+    const foundSection = guidance.find(
+      (sectionGuidance) => sectionGuidance.section === selectTab
+    )
+    setCurrentGuidancePart(foundSection || null)
+  }, [selectTab])
+
+  const mappedTabs: FormattedTab[] = tabs.map((tab) => {
     if (isContentTab(tab)) {
       return { ...tab, shouldShow: true }
     } else if (isParserTab(tab)) {
@@ -66,6 +91,23 @@ function RightSidebar({
       }
     }
   })
+
+  const guidanceTab = {
+    key: 'configGuidance',
+    title: guidanceTabTitle || 'Configuration Guidance',
+    isGuidanceTab: true,
+    shouldShow:
+      guidance.length > 0 &&
+      guidance.some(
+        ({ sectionDescription, inputsDescription }) =>
+          sectionDescription ||
+          inputsDescription?.some(({ description }) => description)
+      )
+  }
+
+  const initialFormattedTabs: FormattedTab[] = hasGuidance
+    ? [guidanceTab, ...mappedTabs]
+    : mappedTabs
 
   if (incompleteTab) {
     initialFormattedTabs.push({
@@ -82,6 +124,18 @@ function RightSidebar({
   )
 
   useEffect(() => {
+    if (
+      activeTab?.isParsableTab &&
+      interchangeableTabs &&
+      interchangeableTabs.some(({ key }) => key === activeTab.key)
+    ) {
+      setShowHandler(true)
+    } else {
+      setShowHandler(false)
+    }
+  }, [activeTab])
+
+  useEffect(() => {
     const updatedTabs = [...formattedTabs]
     const parsableTabs = formattedTabs.filter(
       ({ isParsableTab }) => isParsableTab
@@ -89,6 +143,7 @@ function RightSidebar({
     const incompleteTab = formattedTabs.find(
       ({ isIncompleteTab }) => isIncompleteTab
     )
+    const guidanceTab = formattedTabs.find(({ isGuidanceTab }) => isGuidanceTab)
     if (jsonValue && parsableTabs?.length > 0 && !activeTab?.isParsableTab) {
       parsableTabs.forEach((tab) => {
         const updatedTab = {
@@ -131,7 +186,12 @@ function RightSidebar({
         1,
         updatedIncomplete
       )
-      setActiveTab(incompleteTab)
+      if (!hasRenderedWithValue && guidanceTab) {
+        setActiveTab(guidanceTab)
+        setHasRenderedWithValue(true)
+      } else {
+        setActiveTab(incompleteTab)
+      }
     }
     setFormattedTabs(updatedTabs)
   }, [jsonValue])
@@ -179,28 +239,36 @@ function RightSidebar({
       return null
     })
   }
+  const getContent = () => {
+    if (activeTab?.isIncompleteTab) {
+      return <UnfilledParts unfilledFields={unfilledFields} />
+    }
+    if (activeTab?.isParsableTab) {
+      return (
+        <JsonSidebar
+          allowCopy={true}
+          jsonValue={
+            activeTab?.content ||
+            (isParserTab(activeTab) &&
+              jsonValue &&
+              activeTab?.parser(jsonValue)) ||
+            'Invalid Value. Please provide the `incompleteTab` parameter in order to list all the incomplete sections.'
+          }
+        />
+      )
+    }
+    if (activeTab.isGuidanceTab) {
+      return <GuidancePart currentGuidancePart={currentGuidancePart} />
+    }
+  }
+
   return (
     <div className={classes.rightSidebar}>
       <div className={classes.rightSidebarWrapper}>
         <div className={clsx(generalClasses.topWithTabs, classes.tabsBar)}>
           {getTabs()}
         </div>
-        <div className={classes.rightSidebarContent}>
-          {activeTab?.isIncompleteTab ? (
-            <UnfilledParts unfilledFields={unfilledFields} />
-          ) : (
-            <JsonSidebar
-              allowCopy={true}
-              jsonValue={
-                activeTab?.content ||
-                (isParserTab(activeTab) &&
-                  jsonValue &&
-                  activeTab?.parser(jsonValue)) ||
-                'Invalid Value. Please provide the `incompleteTab` parameter in order to list all the incomplete sections.'
-              }
-            />
-          )}
-        </div>
+        <div className={classes.rightSidebarContent}>{getContent()}</div>
       </div>
       {activeTab?.downloadFunc && (
         <div className={classes.generateButton}>

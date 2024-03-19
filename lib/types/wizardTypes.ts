@@ -47,6 +47,7 @@ export interface Input {
   maxLength?: number
   isHidden?: boolean
   disabled?: boolean
+  description?: string
 }
 
 export interface Section {
@@ -63,9 +64,21 @@ export interface Section {
   shouldBeInitiallyOpen?: boolean
 }
 
+export interface Guidance {
+  section: string
+  sectionTitle: string
+  sectionDescription: string
+  inputsDescription?: {
+    identifier: string
+    title: string
+    description: string
+  }[]
+}
+
 export interface HandledSection {
   section: string
   section_title: string
+  section_description?: string
   inputs: HandledInput[]
   section_info?: string
   section_dependencies?: Dependency[]
@@ -143,4 +156,5 @@ export interface HandledInput {
   max?: number
   hide_field?: boolean
   disabled?: boolean
+  description?: string
 }

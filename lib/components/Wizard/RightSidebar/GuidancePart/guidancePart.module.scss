@@ -1,0 +1,37 @@
+.guidance {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.guidanceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+.sectionGuidance {
+  margin-bottom: 24px;
+}
+
+.inputsDescriptionWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.divider {
+  border-left: 1px solid var(--ironhide-key);
+}
+
+.inputsPart {
+  display: flex;
+  flex-direction: row;
+  gap: 16px
+}
+.sectionTitle {
+  font-size: 16px !important;
+}

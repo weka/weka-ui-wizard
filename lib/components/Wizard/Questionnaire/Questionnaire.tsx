@@ -67,7 +67,8 @@ function Questionnaire({ config }: QuestionnaireProps) {
     unfilledFields,
     setUnfilledFields,
     selectTab,
-    setSelectTab
+    setSelectTab,
+    setFocusedInput
   } = useWizardContext()
 
   const onValidForm = useCallback((values) => {
@@ -136,7 +137,8 @@ function Questionnaire({ config }: QuestionnaireProps) {
         min,
         max,
         hide_field,
-        disabled
+        disabled,
+        description
       } = input
       const fieldType = getInputByType(type, !!options, !!dependent_options)
       const currentInput: Input = {
@@ -318,6 +320,9 @@ function Questionnaire({ config }: QuestionnaireProps) {
       if (disabled) {
         currentInput.disabled = true
       }
+      if (description) {
+        currentInput.description = description
+      }
       formattedInputs.push(currentInput)
     })
     return formattedInputs
@@ -413,6 +418,7 @@ function Questionnaire({ config }: QuestionnaireProps) {
               disableSubmitUntilValid={true}
               selectTab={selectTab}
               onFormValid={onValidForm}
+              setFocusedInput={setFocusedInput}
               onFormInvalid={(errors) => {
                 const formattedErrors = Object.keys(errors).reduce(
                   (acc, field) => {
